@@ -1,0 +1,21 @@
+@author: Micaella
+"""
+
+import requests
+import json
+fechas = ["01-01-2024", "01-07-2024"]
+datos=[]
+for dia in fechas:
+    url = f'https://api.coingecko.com/api/v3/coins/bitcoin/history?date={dia}'
+    reponse =requests.get(url)
+    data=reponse.json()
+    current_price_usd = data["market_data"]["current_price"]["usd"]
+    current_price_eur = data["market_data"]["current_price"]["eur"]
+    datos_fecha = {"fecha": dia,"usd": current_price_usd, "eur": current_price_eur}
+    datos.append(datos_fecha)
+
+print (datos)
+
+
+with open('bitcoin_historical_data.json', 'w') as out_file:
+    json.dump(datos, out_file, indent=4)
